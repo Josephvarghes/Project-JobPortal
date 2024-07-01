@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content%} 
+
+    <section class="search-bar">
+        <div class="container">
+            <h2>Find Your Dream Job</h2>
+            <form action="#" method="GET">
+                <input type="text" name="search" placeholder="Search for jobs...">
+                <select name="category">
+                    <option value="" selected disabled>Select Category</option>
+                    <option value="it">IT</option>
+                    <option value="finance">Finance</option>
+                    <option value="marketing">Marketing</option>
+                    <!-- Add more categories -->
+                </select>
+                <select name="location">
+                    <option value="" selected disabled>Select Location</option>
+                    <option value="bangalore">Bangalore</option>
+                    <option value="delhi">Delhi</option>
+                    <option value="mumbai">Mumbai</option>
+                    <!-- Add more locations -->
+                </select>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="featured-jobs">
+        <div class="container">
+            <h2>Featured Jobs</h2>
+            <!-- Featured job listings go here -->
+        </div>
+    </section>
+
+    <section class="featured-companies">
+        <div class="container">
+            <h2>Featured Companies</h2>
+            <!-- Featured company logos or listings go here -->
+        </div>
+    </section>
+
+{% endblock %}

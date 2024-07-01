@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+    {% load static %}
+
+    
+    {% block content %}
+    <link rel="stylesheet" href="{% static 'css/glowbt.css' %}" />
+    <title>Glowing Text Button | Coding Vibess</title>
+   
+ <div class="container-centered ">
+        <h1 class="hed">Choose</h1>
+    <div class="container mt-4 h-100 d-flex justify-content-center align-items-center">
+      <button  class='glowbt'>
+      <span>JobSeeker</span>
+     </button>        
+   </div>
+   <div class="container mt-4 h-100 d-flex justify-content-center align-items-center">
+          <button class='glowbt'>
+    <span>Employer</span>
+  </button>
+</div>
+    
+</div>
+
+
+  
+    
+    <script src="{% static 'js/glowbt.js' %}"></script>
+ 
+        
+    {% endblock content %}
+        
+    
+  

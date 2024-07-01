@@ -1,0 +1,159 @@
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Set the minimum height of the body to the height of the viewport */
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 1px 0;
+}
+
+header h1 {
+    font-size: 24px;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.search-bar {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.search-bar h2 {
+    margin-bottom: 20px;
+}
+
+.search-bar input[type="text"] {
+    padding: 10px;
+    width: 60%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.featured-jobs, .featured-companies {
+    padding: 20px 0;
+}
+
+footer {
+    background-color: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: auto; /* Push the footer to the bottom */
+}
+
+/* Additional styles for moving images */
+.moving-images {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+}
+
+@keyframes moveImages {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(50%);
+    }
+}
+
+/* Additional styles */
+.featured-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.featured-jobs, .featured-companies {
+    width: 48%; /* Adjust as needed */
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.featured-jobs h2, .featured-companies h2 {
+    margin-bottom: 10px;
+}
+
+/* Additional styles */
+.featured-section {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to next line */
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.featured-jobs, .featured-companies {
+      width: 48%; } /* Adjust width to  */
+
+
+
+      .container-centered {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 50%;
+    }
+
+    .form-group {
+        margin-bottom: 2px;
+    }
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-row .form-group {
+        flex: 1;
+        margin-right: 10px;
+    }
+    .form-row .form-group:last-child {
+        margin-right: 0;
+    }
+    .form-text {
+        text-align: center;
+    }
+    

@@ -1,0 +1,26 @@
+body{
+    background-color: rgb(169, 251, 251);
+}
+#exampl {
+    margin: 0 auto;
+    width: 0%;
+    height: 5px;
+    
+   
+    position: relative;
+   
+    left: -20px; /* move the table 50px to the right */
+    top: 180px; 
+    /* move the table 20px down */
+}
+.JobA{
+    margin: 0 auto;
+    width: 40%;
+    height: 60px;
+    text-align: center;
+    position: relative;
+    left: -20px;
+    top: 190px;
+    background-color: rgb(120, 135, 142);
+    
+}
