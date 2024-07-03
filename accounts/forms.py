@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Form, ModelChoiceField
+from django.forms import ModelForm, Form
 from django.forms import TextInput, PasswordInput, CharField, EmailInput,Textarea,Select,CheckboxInput, FileInput
 from django.core.validators import MinLengthValidator
 from .models import *
@@ -17,7 +17,6 @@ class LoginForm(Form):
         })
 
     )
-
     password = CharField(
         max_length= 15,
         min_length= 4,
@@ -61,7 +60,6 @@ class UserRegisterForm(ModelForm):
             'email',
             'password',
             'phone',
-            'profile_photo',
             'dob',
             'short_bio',
             'job_title',
@@ -72,7 +70,12 @@ class UserRegisterForm(ModelForm):
             'interest',
             'qualification',
             'multiple_images',
-            'short_reel'
+            'short_reel',
+            'smoking_habit',
+            'drinking_habit',
+            'profile_photo',
+            'age'
+
 
         ]
         widgets = {
@@ -107,7 +110,7 @@ class UserRegisterForm(ModelForm):
 
             'dob': TextInput({
                 'class': 'form-control',
-                'placeholder':'MM/DD/YY'
+                'placeholder':'YYYY-MM-DD'
             }),
 
             'short_bio': Textarea({
@@ -127,50 +130,140 @@ class UserRegisterForm(ModelForm):
             'country': Select({
                 'class': 'form-control'
             }),
-
-            'open_to_hiring': CheckboxInput(),
-
-            'profile_photo': FileInput({
-                'class': 'form-control',
-                'placeholder':'upload resume'
-            }),
-
-            'qualification' :  TextInput({
-                'class': 'form-control'
-
-            }),
-
-            'multiple_images' :  FileInput({
-                'class': 'form-control',
-                'placeholder':'Other pictures upload here'
-            }),
-
-            'interest': Select({
-                'class': 'form-control'
-            }),
-
             'hobbies': Select({
                 'class': 'form-control'
             }),
-
-           'short_reel': FileInput({
+            'qualification': Select({
+                'class': 'form-control'
+            }),
+            'interest': Select({
+                'class': 'form-control'
+            }),
+            'age' : TextInput({
                 'class': 'form-control',
-                'placeholder':'upload your reel video'
-            })
+                'placeholder':'Enter Age'
+            }),
 
-
-            
 
         }
-    
 
-# class ShortReelUploadForm(ModelForm):
+class JobSeekerForm(ModelForm):
+      class Meta:
+        model = JobSeeker
+        fields = [
+            'title',
+            'expertise_level'
+         ]
+        widgets =  {
+                     
+            
+                'title' : TextInput({
+                    'class':'form-control',
+                     'placeholder':'Title'
+                    
+                }),
+
+                'expertise_level' : Select({
+                    'class':'form-control',
+                    
+                })
+
+            
+        }
+
+
+
+class EmployerForm(ModelForm):
+      class Meta:
+        model = Employer
+        fields = [
+            'company_name',
+            'designation',
+            'location'
+         ]
+        widgets =  {
+                     
+            
+                'company_name' : TextInput({
+                    'class':'form-control',
+                     'placeholder':'Company Name'
+                    
+                }),
+
+                'designation' : Select({
+                    'class':'form-control',
+                    
+                }),
+                'location' : Select({
+                    'class':'form-control',
+                    
+                })
+
+            
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#user detailes  
+
+# class UserDetailesForm(ModelForm):
 #     class Meta:
-#         model = User
-#         fields = ['title', 'video']
-    
-#     def clean_video(self):
-#         allowed_types = ["video/mp4", "video/avi", "video/mov"]
-#         max_size = 1024 * 1024 * 100  # 100 MB
-#         return self.clean_file('video', allowed_types, max_size)
+#         model = UserActivity
+
+#         exclude = ['user']
+#         fields = [
+           
+#             'hobbies',
+#             'interest',
+#             'smoking_habit',
+#             'drinking_habit',
+#             'user_images',
+#             'user_reels',
+#             'user_qualification'
+
+#         ]
+
+#         widgets = {
+#             'hobbies': Select({
+#                 'class': 'form-control',
+#                 'placeholder':'Choose'
+#             }),
+#             'interest': Select({
+#                 'class': 'form-control',
+#                 'placeholder':'Choose'
+#             }),
+#             'smoking_habit': Select({
+#                 'class': 'form-control'
+                
+#             }),
+#             'drinking_habit': Select({
+#                 'class': 'form-control'
+                
+#             }),
+#             'user_qualification': TextInput({
+#                 'class': 'form-control',
+#                 'placeholder':'Choose'
+#             }),
+
+#         }
+
+
+
 

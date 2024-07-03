@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import *
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 from django.views import View
@@ -25,7 +26,7 @@ class loginView(View):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return render(request, self.template_user, {'form': self.form_class1()})
+                return redirect("accounts:userdetailes")
             else:
                 return HttpResponse('Invalid username or password')
         #form is not valid then..
@@ -43,14 +44,15 @@ class signupView(View):
          return render(request, self.template_name, {'form': self.form_class()})
     
     def post(self, request, *args, **kwargs):
-        form = self.class_name(data = request.POST)
+        form = self.form_class(data = request.POST)
         if not form.is_valid():
             return render(request, self.template_name, {'form': form})
         #form is valid then..
         user = form.save(commit=False)
         user.password = form.cleaned_data['password']
         user.save()
-        return render(request, self.template_login)
+        login(request, user)
+        return redirect('accounts:login')
 
    
 
@@ -69,7 +71,7 @@ class signupView(View):
 
 
 #for profile
-class RegisterView(View):
+class RegisterView(LoginRequiredMixin, View):
        
     form_class = UserRegisterForm
     template_name = 'accounts/register.html'
@@ -103,12 +105,26 @@ class addressView(View):
 
 #for userdetailes(2nd page)
 
-class userDetailesView(View):
-    # form_class = UserRegisterForm
+class userDetailesView(LoginRequiredMixin, View):
+    form_class = UserRegisterForm
     template_name = 'accounts/userdetailes.html'
+    
 
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+    def get(self, request):
+         return render(request, self.template_name, {'form': self.form_class()})
+    
+    def post(self, request):
+        form = self.form_class(data = request.POST)
+        if not form.is_valid():
+            return render(request, self.template_name, {'form': form})
+        #form is valid then..
+        user_details = form.save(commit=False)
+        user_details.user = request.user  
+        user_details.save()
+        
+        return redirect('accounts:userselection')
+    
+    
  
 
 class userSelectionView(View):
@@ -120,7 +136,7 @@ class userSelectionView(View):
 
 class jobSeekerView(View):
      template_name = 'accounts/jobseeker.html'
-     form_class = UserRegisterForm
+     form_class = JobSeekerForm
 
      def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {'form':self.form_class()})
@@ -129,13 +145,13 @@ class jobSeekerView(View):
 
 class employerView(View):
      template_name = 'accounts/employer.html'
-     form_class = UserRegisterForm
+     form_class = EmployerForm
 
      def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {'form':self.form_class()})
 
 
-
+    
 
 
      
