@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Form
+from django.forms import ModelForm, Form, DateInput, SelectMultiple
 from django.forms import TextInput, PasswordInput, CharField, EmailInput,Textarea,Select,CheckboxInput, FileInput
 from django.core.validators import MinLengthValidator
 from .models import *
@@ -108,7 +108,7 @@ class UserRegisterForm(ModelForm):
                  
             }),
 
-            'dob': TextInput({
+            'dob': DateInput({
                 'class': 'form-control',
                 'placeholder':'YYYY-MM-DD'
             }),
@@ -142,7 +142,8 @@ class UserRegisterForm(ModelForm):
             'age' : TextInput({
                 'class': 'form-control',
                 'placeholder':'Enter Age'
-            }),
+            })
+           
 
 
         }
@@ -202,7 +203,48 @@ class EmployerForm(ModelForm):
             
         }
 
+class UserDetailesForm(ModelForm):
 
+
+    class Meta:
+        model = User
+        fields = [
+           
+            'hobbies',
+            'interest',
+            'qualification',
+            'multiple_images',
+            'short_reel',
+            'smoking_habit',
+            'drinking_habit',
+            'profile_photo',
+            'age'
+
+
+        ]
+        widgets = {
+            
+            'dob': DateInput({
+                'class': 'form-control',
+                'placeholder':'YYYY-MM-DD'
+            }),
+
+            'hobbies': Select({
+                'class': 'form-control'
+            }),
+            'qualification': Select({
+                'class': 'form-control'
+            }),
+            'interest': Select({
+                'class': 'form-control'
+            }),
+            'age' : TextInput({
+                'class': 'form-control',
+                'placeholder':'Enter Age'
+            })
+ 
+
+        }
 
 
 

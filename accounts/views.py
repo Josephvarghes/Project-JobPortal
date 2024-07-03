@@ -3,9 +3,11 @@ from django.shortcuts import render, HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse, reverse_lazy
 
 # Create your views here.
 from django.views import View
+from django.views.generic import CreateView,  View
 
 
 class loginView(View):
@@ -35,7 +37,7 @@ class loginView(View):
   
  
 
-class signupView(View):
+class signupView(LoginRequiredMixin, View):
     form_class = UserRegisterForm
     template_name = 'accounts/signup.html'
     template_login = 'accounts/login.html'
@@ -49,10 +51,14 @@ class signupView(View):
             return render(request, self.template_name, {'form': form})
         #form is valid then..
         user = form.save(commit=False)
-        user.password = form.cleaned_data['password']
+        user.set_password(user.password)
         user.save()
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(request, username=username, password=password)
+
         login(request, user)
-        return redirect('accounts:login')
+        return redirect(reverse('accounts:userdetailes'))
 
    
 
@@ -106,23 +112,31 @@ class addressView(View):
 #for userdetailes(2nd page)
 
 class userDetailesView(LoginRequiredMixin, View):
-    form_class = UserRegisterForm
+    # model = User
+    form_class = UserDetailesForm
     template_name = 'accounts/userdetailes.html'
+    success_url = reverse_lazy('accounts:userselection')
     
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-    def get(self, request):
-         return render(request, self.template_name, {'form': self.form_class()})
+
+
+    # def get(self, request):
+    #      return render(request, self.template_name, {'form': self.form_class()})
     
-    def post(self, request):
-        form = self.form_class(data = request.POST)
-        if not form.is_valid():
-            return render(request, self.template_name, {'form': form})
-        #form is valid then..
-        user_details = form.save(commit=False)
-        user_details.user = request.user  
-        user_details.save()
+    # def post(self, request):
+    #     form = self.form_class(data = request.POST)
+    #     if not form.is_valid():
+    #         return render(request, self.template_name, {'form': form})
+    #     #form is valid then..
+    #     user_details = form.save(commit=False)
+    #     user_details.user = request.user  
+    #     user_details.save()
         
-        return redirect('accounts:userselection')
+    #     return redirect('accounts:userselection')
     
     
  
