@@ -151,111 +151,18 @@ class Employer(models.Model):
 
 
 
-# class Interest(models.Model):          
-
-#     INTEREST_CHOICES = (
-#         ('Technology', 'Technology'),
-#         ('Science', 'Science'),
-#         ('Literature', 'Literature'),
-#         ('Travel', 'Travel'),
-#         ('Food', 'Food'),
-#         ('Health', 'Health'),
-#         ('Fitness', 'Fitness'),
-#         ('Education', 'Education'),
-#         ('Fashion', 'Fashion'),
-#         ('Entertainment', 'Entertainment'),
-#         ('Finance', 'Finance'),
-#         ('Politics', 'Politics'),
-#         ('Environment', 'Environment'),
-#         ('Sports', 'Sports'),
-#         ('History', 'History'),
-#     )
+# class Hobbies(models.Model):
     
-#     user_interest = models.CharField(max_length=50, default='Technology', choices=INTEREST_CHOICES)
-   
-#     def __str__(self):
-#         return str(self.user_interest)
-    
-
-
-
-
-
-# class Hobby(models.Model):    
-
-#     HOBBY_CHOICES = (
-#         ('Reading', 'Reading'),
-#         ('Traveling', 'Traveling'),
-#         ('Cooking', 'Cooking'),
-#         ('Sports', 'Sports'),
-#         ('Gardening', 'Gardening'),
-#         ('Gaming', 'Gaming'),
-#         ('Fitness', 'Fitness'),
-#         ('Photography', 'Photography'),
-#         ('Writing', 'Writing'),
-#         ('Dancing', 'Dancing'),
-#     )
-
-#     user_hooby = models.CharField(max_length=100, choices=HOBBY_CHOICES)
+#     Hobbie = models.CharField(max_length=50, unique=True)
 
 #     def __str__(self):
-#         return str(self.user_hooby)
+#         return self.Hobbie
 
 
-
-  
-# class UserImages(models.Model):
-    
-#     image = models.ImageField(upload_to='user_images/', blank=True, null=True)
-    
-
-#     def __str__(self):
-#         return str(self.image)
+# class Interest(models.Model):
     
     
-
-# class UserShortReels(models.Model):
-
-#     reel = models.FileField(upload_to='short_reels/', blank=True, null=True)
-    
-
-#     def __str__(self):
-#         return str(self.reel)
-
-
-
-
-# class UserQualifications(models.Model):
-#     LEVEL_CHOICES = (
-#         ('High School', 'High School'),
-#         ('Diploma', 'Diploma'),
-#         ('Undergraduate', 'Undergraduate'),
-#         ('Graduate', 'Graduate'),
-#         ('Postgraduate', 'Postgraduate'),
-#         ('PhD', 'PhD'),
-#         ('Other', 'Other'),
-#     )
-    
-    
-
-#     name = models.CharField(max_length=100, choices=LEVEL_CHOICES, unique=True)
+#     name = models.CharField(max_length=100)
 
 #     def __str__(self):
 #         return self.name
-
-
-# class UserActivity(models.Model):
-    
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     hobbies = models.ManyToManyField(Hobby)
-#     interest = models.ManyToManyField(Interest, related_name='user_interest')
-#     smoking_habit = models.BooleanField(default=False)
-#     drinking_habit = models.BooleanField(default=False)
-#     user_images = models.ForeignKey(UserImages, related_name='user_image', on_delete=models.CASCADE)
-#     user_reels  = models.ForeignKey(UserShortReels, related_name='user_reels', on_delete=models.CASCADE)
-#     user_qualification = models.ManyToManyField(UserQualifications, related_name='user_qualification')
-     
-
-
-#     def __str__(self):
-#         return self.user.username

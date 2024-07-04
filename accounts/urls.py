@@ -24,7 +24,12 @@ urlpatterns = [
     path('detailes/user-selection/jobseeker', jobSeekerView.as_view(), name = 'jobseeker'),
 
 
-    path('detailes/user-selection/employer', employerView.as_view(), name = 'employer')
+    path('detailes/user-selection/employer', employerView.as_view(), name = 'employer'),
+
+
+    path('home/', userLandingView.as_view(), name = 'userlanding'),
+
+    path('home/post-job', jobPostView.as_view(), name = 'jobpost')
     
     
   

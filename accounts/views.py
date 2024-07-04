@@ -112,15 +112,34 @@ class addressView(View):
 #for userdetailes(2nd page)
 
 class userDetailesView(LoginRequiredMixin, View):
-    # model = User
     form_class = UserDetailesForm
     template_name = 'accounts/userdetailes.html'
-    success_url = reverse_lazy('accounts:userselection')
     
+
+    def get(self, request):
+        return render(request, self.template_name, {'form': self.form_class()})
     
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if not form.is_valid():
+            return render(request, self.template_name, {'form': form})
+        
+        user = self.request.user
+        
+        user.hobbies = form.cleaned_data['hobbies']
+        user.interest = form.cleaned_data['interest']
+        user.drinking_habit = form.cleaned_data['drinking_habit']
+        user.qualification = form.cleaned_data['qualification']
+        user.multiple_images = form.cleaned_data['multiple_images']
+        user.short_reel = form.cleaned_data['short_reel']
+        user.smoking_habit = form.cleaned_data['smoking_habit']
+        user.age = form.cleaned_data['age']
+        if 'profile_photo' in form.cleaned_data:
+            user.profile_photo = form.cleaned_data['profile_photo']
+            user.save()
+
+        return redirect(reverse('accounts:userselection'))
+
 
 
 
@@ -165,7 +184,18 @@ class employerView(View):
         return render(request, self.template_name, {'form':self.form_class()})
 
 
-    
 
 
-     
+class userLandingView(View):
+    template_name = 'accounts/userlandingpage.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+
+class jobPostView(View):
+   
+    template_name = 'accounts/postjob.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
