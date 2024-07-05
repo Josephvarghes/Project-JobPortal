@@ -1,0 +1,20 @@
+.card-custom {
+    background-color: light; /* Dark background */
+    color: white;
+    border: 1px solid #2d2d2d; /* Darker border for 3D effect */
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Initial shadow */
+} 
+.card-custom:hover {
+    transform: translateY(-10px); /* Slight pop effect */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Shadow effect on hover */
+} 
+.btn-apply {
+    background-color: lightblue;
+    color: white;
+}
+.card-title-custom {
+    color: black;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Dark 3D effect */
+} 

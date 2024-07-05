@@ -3,6 +3,8 @@
 {% block content %}
 
 <div class="container rounded bg-white mt-5 mb-5">
+    <form method="post">
+        {% csrf_token %}
     <div class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Username</span><span class="text-black-50">user@mail.com</span><span> </span></div>
@@ -17,8 +19,8 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-6">
-                        <label class="labels">Name</label>
-                          {% include 'components/form_field.html' with field=form.username %} 
+                        <label class="labels">Age</label>
+                          {% include 'components/form_field.html' with field=form.age %} 
                         
                     </div>
                     <div class="col-md-6">
@@ -64,14 +66,23 @@
                     {% include 'components/form_field.html' with field=form.short_reel %}
                 </div>
                 <div class="col-md-12">
-                    <label class="labels">Country</label>
-                    {% include 'components/form_field.html' with field=form.country %}
+                    <label class="labels font-weight-bold mt-3">Habbites</label>
+                </div>
+                <div class="col-md-12">
+                    
+                    
+                    {% include 'components/form_field.html' with field=form.drinking_habit%}
+                    <label class="labels">Drinking </label>
+        
+                    {% include 'components/form_field.html' with field=form.smoking_habit%} 
+                    <label class="labels">Smoking</label>
                 </div>
             </div>
            
-        </div>
-        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save </button></div>
+        </div>{{ form.errors }}
+        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save </button></div>
     </div>
+</form>
 </div>
 </div>
 </div>

@@ -6,22 +6,57 @@
     <link rel="stylesheet" href="{% static 'css/glowbt.css' %}" />
     <title>Glowing Text Button | Coding Vibess</title>
    
- <div class="container-centered ">
-        <h1 class="hed">Choose</h1>
-    <div class="container mt-4 h-100 d-flex justify-content-center align-items-center">
-      <button  class='glowbt'>
-      <span>JobSeeker</span>
-     </button>        
-   </div>
-   <div class="container mt-4 h-100 d-flex justify-content-center align-items-center">
-          <button class='glowbt'>
-    <span>Employer</span>
-  </button>
-</div>
+
+  
     
+
+<h1 class="hed">Choose</h1>
+<div class="container mt-5 pt-0">
+  <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+          <div class="container-centered">
+             
+          
+            <div class="container mt-4 h-100 d-flex justify-content-center align-items-center">
+              <a class="text-decoration-none"  href="{% url 'accounts:jobseeker' %}">
+              <button  class='glowbt'>
+              <span> JobSeeker</span>
+             </button>
+            </a>
+           </div>
+                
+               
+
+      </div>
+  </div>
 </div>
 
+<div class="container mt-5 pt-0">
+  <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+          <div class="container-centered">
+             
+          
+            
+           <div class="container mt-4 h-100 d-flex justify-content-center align-items-center">
+            <a class="text-decoration-none"  href="{% url 'accounts:employer' %}">
+                  <button class='glowbt'>
+                      <span>Employer</span>
+                 </button>
+                </a>
+          </div>      
+               
 
+      </div>
+  </div>
+</div>
+
+<div class="container mt-5 pt-0">
+  <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+       
+  </div>
+</div>
   
     
     <script src="{% static 'js/glowbt.js' %}"></script>
