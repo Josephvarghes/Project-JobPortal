@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import *
@@ -126,18 +126,24 @@ class userDetailesView(LoginRequiredMixin, View):
         
         user = self.request.user
         
-        user.hobbies = form.cleaned_data['hobbies']
-        user.interest = form.cleaned_data['interest']
+        hobbies = form.cleaned_data['hobbies']
+        interest = form.cleaned_data['interest']
         user.drinking_habit = form.cleaned_data['drinking_habit']
-        user.qualification = form.cleaned_data['qualification']
-        user.multiple_images = form.cleaned_data['multiple_images']
-        user.short_reel = form.cleaned_data['short_reel']
+        qualification = form.cleaned_data['qualification']
+        multiple_images = form.cleaned_data['multiple_images']
+        short_reel = form.cleaned_data['short_reel']
         user.smoking_habit = form.cleaned_data['smoking_habit']
         user.age = form.cleaned_data['age']
         if 'profile_photo' in form.cleaned_data:
             user.profile_photo = form.cleaned_data['profile_photo']
             user.save()
-
+            #for saving many to many field
+        user.hobbies.set(hobbies)
+        user.interest.set(interest)
+        user.qualification.set(qualification)
+        user.multiple_images.set(multiple_images)
+        user.short_reel.set(short_reel)
+        
         return redirect(reverse('accounts:userselection'))
 
 
@@ -160,29 +166,61 @@ class userDetailesView(LoginRequiredMixin, View):
     
  
 
-class userSelectionView(View):
+class userSelectionView(LoginRequiredMixin, View):
      template_name = 'accounts/user_selection.html'
 
      def get(self, request, *args, **kwargs):
         return render(request, self.template_name )
-     
-
-class jobSeekerView(View):
-     template_name = 'accounts/jobseeker.html'
-     form_class = JobSeekerForm
-
-     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'form':self.form_class()})
-     
 
 
-class employerView(View):
-     template_name = 'accounts/employer.html'
-     form_class = EmployerForm
+#for jobseeker page
+class jobSeekerView( View):
 
-     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'form':self.form_class()})
+    form_class = JobSeekerForm
+    template_name = 'accounts/jobseeker.html'
+    
 
+    def get(self, request):
+        return render(request, self.template_name, {'form': self.form_class()})
+    
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if not form.is_valid():
+            return render(request, self.template_name, {'form': form})
+        
+        form.save()
+ 
+        return redirect(reverse('accounts:userlanding'))
+
+
+
+
+
+
+
+class employerView(LoginRequiredMixin, View):
+
+    form_class = EmployerForm
+    template_name = 'accounts/employer.html'
+    
+
+    def get(self, request):
+        return render(request, self.template_name, {'form': self.form_class()})
+    
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if not form.is_valid():
+            return render(request, self.template_name, {'form': form})
+        
+        user = self.request.user
+        
+        user.company_name = form.cleaned_data['company_name']
+        user.designation = form.cleaned_data['expertise_level']
+        user.location = form.cleaned_data['location']
+    
+        user.save()
+
+        return redirect(reverse('accounts:userlanding'))
 
 
 

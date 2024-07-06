@@ -66,13 +66,6 @@ class UserRegisterForm(ModelForm):
             'gender',
             'country',
             'open_to_hiring',
-            'hobbies',
-            'interest',
-            'qualification',
-            'multiple_images',
-            'short_reel',
-            'smoking_habit',
-            'drinking_habit',
             'profile_photo',
             'age'
 
@@ -128,15 +121,6 @@ class UserRegisterForm(ModelForm):
             }),
 
             'country': Select({
-                'class': 'form-control'
-            }),
-            'hobbies': Select({
-                'class': 'form-control'
-            }),
-            'qualification': Select({
-                'class': 'form-control'
-            }),
-            'interest': Select({
                 'class': 'form-control'
             }),
             'age' : TextInput({
@@ -218,7 +202,8 @@ class UserDetailesForm(ModelForm):
             'smoking_habit',
             'drinking_habit',
             'profile_photo',
-            'age'
+            'age',
+            'dob'
 
 
         ]
@@ -229,19 +214,28 @@ class UserDetailesForm(ModelForm):
                 'placeholder':'YYYY-MM-DD'
             }),
 
-            'hobbies': Select({
+            'hobbies': SelectMultiple({
                 'class': 'form-control'
             }),
-            'qualification': Select({
+            'qualification': SelectMultiple({
                 'class': 'form-control'
             }),
-            'interest': Select({
+            'interest': SelectMultiple({
                 'class': 'form-control'
             }),
             'age' : TextInput({
                 'class': 'form-control',
                 'placeholder':'Enter Age'
+            }),
+            'multiple_images' : FileInput({
+                'class': 'form-control',
+                
+            }),
+            'short_reel' : FileInput({
+                'class': 'form-control',
+                
             })
+
  
 
         }

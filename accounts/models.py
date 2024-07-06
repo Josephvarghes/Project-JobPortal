@@ -2,6 +2,42 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+class Hobbies(models.Model):
+    Hobbie = models.CharField(max_length=50, unique=True)
+    def __str__(self):
+        return self.Hobbie
+
+
+class Interest(models.Model):
+    interest = models.CharField(max_length=100)
+    def __str__(self):
+        return self.interest
+    
+
+class Qualification(models.Model):
+    qualification = models.CharField(max_length=100)
+    def __str__(self):
+        return self.qualification
+    
+
+class MultipleImages(models.Model):
+    images = models.FileField(upload_to='multiple_images/', blank=True, null=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.images
+    
+
+class ShortReels(models.Model):
+    short_reel = models.FileField(upload_to='shortreels/', blank=True, null=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.short_reel
+    
+    
+
+    
+
+    
 class User(AbstractUser):
    
     GENDER_CHOICES = (
@@ -12,39 +48,6 @@ class User(AbstractUser):
     COUNTRY_CHOICES= (
         ('IN', 'India'),
     )
-
-
-    INTEREST_CHOICES = (
-        ('T', 'Technology'),
-        ('S', 'Science'),
-        ('L', 'Literature'),
-        ('T', 'Travel'),
-        ('F', 'Food'),
-        ('H', 'Health'),
-        ('Fi', 'Fitness'),
-        ('E', 'Education'),
-        ('Fa', 'Fashion'),
-        ('En', 'Entertainment'),
-        ('Fin', 'Finance'),
-        ('P', 'Politics'),
-        ('Env', 'Environment'),
-        ('Sp', 'Sports'),
-        ('Hi', 'History'),
-    )
-    
-    HOBBY_CHOICES = (
-        ('R', 'Reading'),
-        ('T', 'Traveling'),
-        ('C', 'Cooking'),
-        ('S', 'Sports'),
-        ('G', 'Gardening'),
-        ('Ga', 'Gaming'),
-        ('F', 'Fitness'),
-        ('P', 'Photography'),
-        ('W', 'Writing'),
-        ('D', 'Dancing'),
-    )
-
 
     QUALIFICATION_CHOICES = (
         ('H', 'High School'),
@@ -66,11 +69,11 @@ class User(AbstractUser):
     open_to_hiring = models.BooleanField(default=False)
     
 
-    hobbies = models.CharField(max_length=100, default='R', choices=HOBBY_CHOICES,  blank=True, null=True)
-    interest = models.CharField(max_length=100, default='T', choices=INTEREST_CHOICES,  blank=True, null=True)
-    qualification = models.CharField(max_length=100, default='H', choices=QUALIFICATION_CHOICES,  blank=True, null=True)
-    multiple_images = models.ImageField(upload_to='multiple_images/', blank=True, null=True)
-    short_reel = models.FileField(upload_to='shortreels/', blank=True, null=True)
+    hobbies = models.ManyToManyField(Hobbies, related_name="user_hobbies")
+    interest = models.ManyToManyField(Interest, related_name="user_interest")
+    qualification = models.ManyToManyField(Qualification,  related_name="user_qualification" )
+    multiple_images = models.ManyToManyField(MultipleImages,  related_name="user_images",  blank=True, null=True)
+    short_reel =  models.ManyToManyField(ShortReels, related_name="user_reels",  blank=True, null=True)
     smoking_habit = models.BooleanField(default=False)
     drinking_habit = models.BooleanField(default=False)
     age = models.CharField(max_length=15, blank=True, null=True)
@@ -111,23 +114,36 @@ class JobSeeker(models.Model):
         ('I', 'Intermediate'),
         ('E', 'Expert')
     )
-    
 
+
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.TextField(max_length=100)
     expertise_level = models.CharField(max_length=100, default='B', choices = LEVEL_CHOICE)
+
+    def __str__(self):
+        return self.title
+
+
+
+class Designation(models.Model):
+    designation = models.CharField(max_length=100)
+    def __str__(self):
+        return self.designation
+
 
 
 class Employer(models.Model):
     
-   DESIGNATION_CHOICES = (
-    ('IN', 'Intern'),
-    ('JD', 'Junior Developer'),
-    ('SD', 'Senior Developer'),
-    ('TL', 'Team Lead'),
-    ('MG', 'Manager'),
-    ('DR', 'Director'),
-    ('CEO', 'Chief Executive Officer'),
-   )
+#    DESIGNATION_CHOICES = (
+#     ('IN', 'Intern'),
+#     ('JD', 'Junior Developer'),
+#     ('SD', 'Senior Developer'),
+#     ('TL', 'Team Lead'),
+#     ('MG', 'Manager'),
+#     ('DR', 'Director'),
+#     ('CEO', 'Chief Executive Officer'),
+#    )
     
    
    LOCATION_CHOICES = (
@@ -143,26 +159,49 @@ class Employer(models.Model):
     ('AMD', 'Ahmedabad'),
    )
 
-
-
+   id = models.BigAutoField(primary_key=True)
+   user = models.ForeignKey(User, on_delete=models.CASCADE)
    company_name = models.TextField(max_length=100)
-   designation = models.CharField(max_length=100, default='IN', choices = DESIGNATION_CHOICES )
+   designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
    location = models.CharField(max_length=100, default='KOC', choices = LOCATION_CHOICES  )
 
+   def __str__(self):
+        return self.company_name
 
 
-# class Hobbies(models.Model):
-    
-#     Hobbie = models.CharField(max_length=50, unique=True)
-
-#     def __str__(self):
-#         return self.Hobbie
 
 
-# class Interest(models.Model):
-    
-    
-#     name = models.CharField(max_length=100)
 
-#     def __str__(self):
-#         return self.name
+
+
+
+
+class UserHobbies(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    hobbies = models.ForeignKey(Hobbies,on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'hobbies')
+
+
+class UserInterest(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    interest = models.ForeignKey(Interest,on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'interest')
+
+
+class UserQualification(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    qualification = models.ForeignKey(Interest,on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'qualification')
+
+
+
+
