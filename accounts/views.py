@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import render, HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from .forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
@@ -37,7 +37,7 @@ class loginView(View):
   
  
 
-class signupView(LoginRequiredMixin, View):
+class signupView(View):
     form_class = UserRegisterForm
     template_name = 'accounts/signup.html'
     template_login = 'accounts/login.html'
@@ -61,23 +61,32 @@ class signupView(LoginRequiredMixin, View):
         return redirect(reverse('accounts:userdetailes'))
 
    
-
+class logoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        return redirect(reverse('accounts:login'))
    
 
         
     
 
 
-# class forgotView(View):
+class forgotView(View):
+    form_class = ForgotForm 
+    template_name = 'accounts/forgot_password.html'
 
-#     def __init__(self)
+    def get(self, request):
+
+        return render(request, self.template_name, {'form':self.form_class})
+
+    
    
 
 
 
 
 #for profile
-class RegisterView(LoginRequiredMixin, View):
+class RegisterView(View):
        
     form_class = UserRegisterForm
     template_name = 'accounts/register.html'
@@ -174,7 +183,7 @@ class userSelectionView(LoginRequiredMixin, View):
 
 
 #for jobseeker page
-class jobSeekerView( View):
+class jobSeekerView(LoginRequiredMixin, View):
 
     form_class = JobSeekerForm
     template_name = 'accounts/jobseeker.html'
@@ -188,8 +197,9 @@ class jobSeekerView( View):
         if not form.is_valid():
             return render(request, self.template_name, {'form': form})
         
+        form.instance.user = self.request.user
         form.save()
- 
+
         return redirect(reverse('accounts:userlanding'))
 
 
@@ -212,15 +222,11 @@ class employerView(LoginRequiredMixin, View):
         if not form.is_valid():
             return render(request, self.template_name, {'form': form})
         
-        user = self.request.user
+        form.instance.user = self.request.user
+        form.save()
         
-        user.company_name = form.cleaned_data['company_name']
-        user.designation = form.cleaned_data['expertise_level']
-        user.location = form.cleaned_data['location']
-    
-        user.save()
-
-        return redirect(reverse('accounts:userlanding'))
+        
+        return redirect(reverse('accounts:employerlanding'))
 
 
 
@@ -234,6 +240,31 @@ class userLandingView(View):
 class jobPostView(View):
    
     template_name = 'accounts/postjob.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+ #employer to get detailes of posted jobs   
+
+class EmployerPostedJobView(View):
+   
+    template_name = 'accounts/em_posted_jobdetailes.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+    
+#employer landing page
+class employerLandingView(View):
+   
+    template_name = 'accounts/em_landing.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+    
+#displaying home page for jobseeker
+class jsHomeView(View):
+   
+    template_name = 'accounts/js_home.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)

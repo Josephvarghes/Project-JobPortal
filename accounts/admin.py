@@ -7,4 +7,8 @@ admin.site.register(Interest)
 admin.site.register(Qualification)
 admin.site.register(JobSeeker)
 admin.site.register(Employer)
+admin.site.register(Designation)
+admin.site.register(Location)
+
+
 

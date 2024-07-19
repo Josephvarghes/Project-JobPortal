@@ -2,6 +2,19 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+
+class Location(models.Model):
+    location = models.CharField(max_length=50, unique=True)
+    def __str__(self):
+        return self.location
+
+class Designation(models.Model):
+    designation = models.CharField(max_length=50, unique=True)
+    def __str__(self):
+        return self.designation
+
+
+
 class Hobbies(models.Model):
     Hobbie = models.CharField(max_length=50, unique=True)
     def __str__(self):
@@ -126,10 +139,6 @@ class JobSeeker(models.Model):
 
 
 
-class Designation(models.Model):
-    designation = models.CharField(max_length=100)
-    def __str__(self):
-        return self.designation
 
 
 
@@ -146,24 +155,27 @@ class Employer(models.Model):
 #    )
     
    
-   LOCATION_CHOICES = (
-    ('MUM', 'Mumbai'),
-    ('DEL', 'Delhi'),
-    ('BLR', 'Bangalore'),
-    ('HYD', 'Hyderabad'),
-    ('CHE', 'Chennai'),
-    ('KOL', 'Kolkata'),
-    ('PUN', 'Pune'),
-    ('JAI', 'Jaipur'),
-    ('KOC', 'Kochi'),
-    ('AMD', 'Ahmedabad'),
-   )
+#    LOCATION_CHOICES = (
+#     ('MUM', 'Mumbai'),
+#     ('DEL', 'Delhi'),
+#     ('BLR', 'Bangalore'),
+#     ('HYD', 'Hyderabad'),
+#     ('CHE', 'Chennai'),
+#     ('KOL', 'Kolkata'),
+#     ('PUN', 'Pune'),
+#     ('JAI', 'Jaipur'),
+#     ('KOC', 'Kochi'),
+#     ('AMD', 'Ahmedabad'),
+#    )
 
    id = models.BigAutoField(primary_key=True)
+
    user = models.ForeignKey(User, on_delete=models.CASCADE)
-   company_name = models.TextField(max_length=100)
    designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
-   location = models.CharField(max_length=100, default='KOC', choices = LOCATION_CHOICES  )
+
+   company_name = models.TextField(max_length=100)
+   location = models.ForeignKey(Location, on_delete=models.CASCADE)
+
 
    def __str__(self):
         return self.company_name

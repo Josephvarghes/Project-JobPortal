@@ -29,6 +29,41 @@ class LoginForm(Form):
 
     )
 
+class ForgotForm(ModelForm):
+        
+        username = CharField(
+        max_length= 15,
+        min_length= 4,
+        required= True,
+        label= 'Username',
+        widget= TextInput({
+            'class': 'form-control',
+            'placeholder':'User Name'
+
+        })
+
+       )
+        class Meta:
+            model = User
+            fields = [
+                
+                'email'
+            ]
+            widgets =  {
+                        
+                
+
+                    'email' : EmailInput({
+                        'class':'form-control',
+                        'placeholder':'email'
+
+                        
+                    })
+
+                
+            }
+
+
 
 class UserRegisterForm(ModelForm):
 
@@ -132,6 +167,9 @@ class UserRegisterForm(ModelForm):
 
         }
 
+
+
+
 class JobSeekerForm(ModelForm):
       class Meta:
         model = JobSeeker
@@ -177,10 +215,14 @@ class EmployerForm(ModelForm):
 
                 'designation' : Select({
                     'class':'form-control',
+                    'placeholder':'Select Designation'
+
                     
-                }),
+                 }),
                 'location' : Select({
                     'class':'form-control',
+                    'placeholder':'Select Location'
+
                     
                 })
 
